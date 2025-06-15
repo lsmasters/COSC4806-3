@@ -30,7 +30,7 @@
 		    <button type="submit" class="btn btn-primary">Login</button>
 		</fieldset>
 		</form> 
-		<p>  <a href='/create_user.php'><br><br>Click here to CREATE a new account </a></p>
+		<p>  <a href='/create'><br><br>Click here to CREATE a new account </a></p>
 	</div>
 </div>
     <?php require_once 'app/views/templates/footer.php' ?>
