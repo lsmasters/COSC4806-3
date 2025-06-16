@@ -11,7 +11,16 @@ class User {
     public function __construct() {
         
     }
-
+  
+    public function get_all_users() {
+      $db = db_connect();
+      $sql =
+      $stmt = $db->prepare( "SELECT * FROM users;");
+      $stmt->execute();
+      $rows = $stmt->fetchall(PDO::FETCH_ASSOC);
+      return $rows;
+    }
+  
     public function test () {
       $db = db_connect();
       $statement = $db->prepare("select * from users;");
@@ -49,8 +58,17 @@ class User {
     		}
       }  
     public function checknewuser($username, $password){
-        echo "CHECKING";
+        $user = new User();
+        $user_list = $user->get_all_users();  //get all db records
+        //1.   check db for username...if included return to create_user with username flag set
+        foreach ($user_list as $item){
+            if ($username == $item['username']){
+              $_SESSION['usernameUsed'] = 1;
+              header ("Location: /create");
+              die;
+            }
+        }
+        echo "username is unique";
         die;
-    }  
-   
+    }
 }
