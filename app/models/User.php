@@ -7,6 +7,7 @@ class User {
     public $auth = false;
     public $checked = false; //for new user
     public $usernameused = false;  //for new user
+    public $pwmismatch = false;  //for new user
 
     public function __construct() {
         
@@ -60,7 +61,8 @@ class User {
     public function checknewuser($username, $password){
         $user = new User();
         $user_list = $user->get_all_users();  //get all db records
-        //1.   check db for username...if included return to create_user with username flag set
+       
+      //1.   check db for username...if included return to create_user with username flag set
         foreach ($user_list as $item){
             if ($username == $item['username']){
               $_SESSION['usernameUsed'] = 1;
@@ -68,7 +70,15 @@ class User {
               die;
             }
         }
-        echo "username is unique";
-        die;
+        $_SESSION['usernameUsed'] = 0;  //username is unique...continue
+      
+        //2.  check password for entry error
+        if ($password !== $password2) {  //check for password entry match
+            $_SESSION['pwmismatch'] = 1;
+            header ("Location: /create");
+            exit;
+        } else {
+            $_SESSION['pwmismatch'] = 0;//password match...so proceed
+        }
     }
 }

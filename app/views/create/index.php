@@ -1,3 +1,16 @@
+<?php
+//notice for unique usernames
+if (isset($_SESSION['usernameUsed']) &&
+$_SESSION['usernameUsed']){
+  echo '<p style="color:red">USERNAME ALREADY EXISTS! <br>  PLEASE TRY AGAIN!  </p>';
+}
+//notice for password entry mismatch
+if(isset($_SESSION['pwmismatch']) && $_SESSION['pwmismatch'] == 1){
+      echo '<p style="color:red">PASSWORD MISMATCH! <br> PLEASE TRY AGAIN!  </p>'; 
+}
+
+?>
+
 
 <main role="main" class="container">
 <h1>Create User</h1>
@@ -14,8 +27,13 @@
       </div>
       <br>
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">Password      </label>
         <input required type="password" class="form-control" name="password">
+      </div>
+      <br>
+      <div class="form-group">
+        <label for="password">Password Again</label>
+        <input required type="password" class="form-control" name="password2">
       </div>
             <br>
         <button type="submit" class="btn btn-primary">Submit</button>
