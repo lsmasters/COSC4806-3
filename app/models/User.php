@@ -8,7 +8,7 @@ class User {
     public $checked = false; //for new user
     public $usernameused = false;  //for new user
     public $pwmismatch = false;  //for new user
-
+    public $passwordInvalid = false; //for new user
     public function __construct() {
         
     }
@@ -21,6 +21,17 @@ class User {
       $rows = $stmt->fetchall(PDO::FETCH_ASSOC);
       return $rows;
     }
+
+   public function create_user($username,$password){
+     $db = db_connect();
+     $phashed = password_hash($password, PASSWORD_DEFAULT);
+     $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
+     $stmt = $db -> prepare($sql);
+     $stmt -> bindParam(':username', $username);
+     $stmt -> bindParam(':password', $phashed);
+
+     return $stmt -> execute();
+   }
   
     public function test () {
       $db = db_connect();
@@ -58,11 +69,11 @@ class User {
       		  die;
     		}
       }  
-    public function checknewuser($username, $password){
+    public function checknewuser($username, $password, $password2){
         $user = new User();
         $user_list = $user->get_all_users();  //get all db records
        
-      //1.   check db for username...if included return to create_user with username flag set
+        //1.   check db for username...if included return to create_user with username flag set
         foreach ($user_list as $item){
             if ($username == $item['username']){
               $_SESSION['usernameUsed'] = 1;
@@ -80,5 +91,22 @@ class User {
         } else {
             $_SESSION['pwmismatch'] = 0;//password match...so proceed
         }
+        // 3. check password validity...if error return to create_user with password flag set
+        if (strlen($password) >= 8 &&
+            preg_match('/[A-Z]/', $password) &&
+            preg_match('/[a-z]/', $password) && 
+            preg_match('/[0-9]/', $password) &&
+            preg_match('/[!@#$%]/',$password)){
+                $user->create_user($username,$password);  //add to db
+                header ("Location: /login");
+                $_SESSION['passwordInvalid'] = 0;
+                die; 
+        } else {   
+              header ("Location: /create");
+              $_SESSION['passwordInvalid'] = 1;
+              exit;
+        }
+
+      
     }
 }

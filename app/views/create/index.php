@@ -4,11 +4,16 @@ if (isset($_SESSION['usernameUsed']) &&
 $_SESSION['usernameUsed']){
   echo '<p style="color:red">USERNAME ALREADY EXISTS! <br>  PLEASE TRY AGAIN!  </p>';
 }
+
 //notice for password entry mismatch
 if(isset($_SESSION['pwmismatch']) && $_SESSION['pwmismatch'] == 1){
       echo '<p style="color:red">PASSWORD MISMATCH! <br> PLEASE TRY AGAIN!  </p>'; 
 }
-
+if(isset($_SESSION['passwordInvalid']) &&
+     $_SESSION['passwordInvalid']){
+    echo '<p style="color:red">PASSWORD DOES NOT MEET REQUIREMENTS!  <br> PLEASE TRY AGAIN!  </p>';
+}
+  
 ?>
 
 
