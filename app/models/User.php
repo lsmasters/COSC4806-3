@@ -32,6 +32,14 @@ class User {
 
      return $stmt -> execute();
    }
+  public function log($username, $success){
+    $file = 'logins.log';
+    $time = date("Y-m-d H:i:s");
+    $entry = $time . " - " . $username . " - " . $success . "\n";
+    //create file if it doesn't exist
+    file_put_contents($file, $entry, FILE_APPEND | LOCK_EX);
+  }
+  
   
     public function test () {
       $db = db_connect();
@@ -57,6 +65,8 @@ class User {
       			$_SESSION['auth'] = 1;
       			$_SESSION['username'] = ucwords($username);
       			unset($_SESSION['failedAuth']);
+            //log successful login
+            $this->log($username, "SUCCESS");
       			header('Location: /home');
       			die;
     		} else {
@@ -65,10 +75,13 @@ class User {
       			 } else {
         				  $_SESSION['failedAuth'] = 1;
       			 }
+            //log unsussessful login
+            $this->log($username, "FAILED");
     			  header('Location: /login');
       		  die;
     		}
       }  
+  
     public function checknewuser($username, $password, $password2){
         $user = new User();
         $user_list = $user->get_all_users();  //get all db records
