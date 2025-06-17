@@ -72,11 +72,16 @@ class User {
     		} else {
       			 if(isset($_SESSION['failedAuth'])) {
       				    $_SESSION['failedAuth'] ++; //increment
+                  if ($_SESSION['failedAuth'] >= 3){
+                      $_SESSION['failedAuth'] = 0;
+                      $_SESSION['timeout'] = time() + 60;  //1 minute timeout  
+                  }
       			 } else {
         				  $_SESSION['failedAuth'] = 1;
       			 }
             //log unsussessful login
             $this->log($username, "FAILED");
+            //redirect to login page
     			  header('Location: /login');
       		  die;
     		}
