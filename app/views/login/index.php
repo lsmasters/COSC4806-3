@@ -1,7 +1,12 @@
 <?php //require_once 'app/views/templates/headerPublic.php'
-	if(isset($_SESSION['failedAuth'])) { 
-		echo "This is unsuccessful login attempt # " . $_SESSION['failedAuth']; 
-		echo '<p style="color:red">PLEASE TRY AGAIN!  </p>';
+	if(isset($_SESSION['failedAuth'])) {
+		if ($_SESSION['failedAuth'] == 0 && time() < $_SESSION['timeout']){
+				echo '<p style="color:red">Too many failed attempts!  </p>';
+				echo '<p style="color:red">YOU HAVE BEEN LOCKED OUT FOR 1 MINUTE!  </p>';
+		} else {
+				echo "This is unsuccessful login attempt # " . $_SESSION['failedAuth']; 
+				echo '<p style="color:red">PLEASE TRY AGAIN!  </p>';
+		}	
 	}
 	else{
 		echo '<p>Please login to continue. </p>';

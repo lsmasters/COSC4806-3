@@ -9,8 +9,8 @@ class User {
     public $usernameused = false;  //for new user
     public $pwmismatch = false;  //for new user
     public $passwordInvalid = false; //for new user
-    public function __construct() {
-        
+    
+  public function __construct() {      
     }
   
     public function get_all_users() {
@@ -50,7 +50,12 @@ class User {
     }
 
     public function authenticate($username, $password) {
-        /*
+       //check for timeout
+       if (isset($_SESSION['timeout']) && time() < $_SESSION['timeout']){
+           unset($_SESSION['failedAuth']);
+           header('Location: /login');
+       }
+      /*
          * if username and password good then
          * $this->auth = true;
          */
@@ -74,7 +79,7 @@ class User {
       				    $_SESSION['failedAuth'] ++; //increment
                   if ($_SESSION['failedAuth'] >= 3){
                       $_SESSION['failedAuth'] = 0;
-                      $_SESSION['timeout'] = time() + 60;  //1 minute timeout  
+                      $_SESSION['timeout'] = time() + 120;  //2 minute timeout  
                   }
       			 } else {
         				  $_SESSION['failedAuth'] = 1;
