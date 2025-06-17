@@ -1,4 +1,7 @@
-<?php //require_once 'app/views/templates/headerPublic.php'
+<?php require_once 'app/views/templates/headerPublic.php'; ?>
+
+
+<?php
 	if(isset($_SESSION['failedAuth'])) {
 		if ($_SESSION['failedAuth'] == 0 && time() < $_SESSION['timeout']){
 				echo '<p style="color:red">Too many failed attempts!  </p>';
@@ -11,8 +14,10 @@
 	else{
 		echo '<p>Please login to continue. </p>';
   }
-  
+	
 ?>
+
+
 <main role="main" class="container">
 <h1>Welcome to Assigment 3 LOGIN</h1>
 <br>

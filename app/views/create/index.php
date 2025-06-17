@@ -1,4 +1,5 @@
 <?php
+require_once 'app/views/templates/headerPublic.php';
 //notice for unique usernames
 if (isset($_SESSION['usernameUsed']) &&
 $_SESSION['usernameUsed']){
@@ -15,7 +16,7 @@ if(isset($_SESSION['passwordInvalid']) &&
 }
   
 ?>
-
+ 
 
 <main role="main" class="container">
 <h1>Create User</h1>
