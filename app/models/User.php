@@ -79,7 +79,7 @@ class User {
       				    $_SESSION['failedAuth'] ++; //increment
                   if ($_SESSION['failedAuth'] >= 3){
                       $_SESSION['failedAuth'] = 0;
-                      $_SESSION['timeout'] = time() + 120;  //2 minute timeout  
+                      $_SESSION['timeout'] = time() + 120;  //1 minute timeout  
                   }
       			 } else {
         				  $_SESSION['failedAuth'] = 1;

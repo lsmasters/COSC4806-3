@@ -4,8 +4,11 @@
 <?php
 	if(isset($_SESSION['failedAuth'])) {
 		if ($_SESSION['failedAuth'] == 0 && time() < $_SESSION['timeout']){
-				echo '<p style="color:red">Too many failed attempts!  </p>';
+				echo '<p style="color:red">Too many incorrect attempts!  </p>';
 				echo '<p style="color:red">YOU HAVE BEEN LOCKED OUT FOR 1 MINUTE!  </p>';
+			ob_flush();
+			flush();
+			sleep(60);  //iminute timeout
 		} else {
 				echo "This is unsuccessful login attempt # " . $_SESSION['failedAuth']; 
 				echo '<p style="color:red">PLEASE TRY AGAIN!  </p>';
